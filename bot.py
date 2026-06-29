@@ -21,9 +21,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("🔍 Film izlash", callback_data="search")],
         [InlineKeyboardButton("🎭 Janr bilan izlash", callback_data="genres")]
     ]
-    await update.message.reply_photo(
-        photo="https://i.imgur.com/your_image.jpg",
-        caption="👋 *Xush kelibsiz!*\n\n🎬 Kino nomini yozing yoki quyidagi tugmalardan birini tanlang:",
+    await update.message.reply_text(
+        "👋 *Xush kelibsiz!*\n\n🎬 Kino nomini yozing yoki quyidagi tugmalardan birini tanlang:",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
@@ -38,12 +37,12 @@ async def show_genres(update: Update, context: ContextTypes.DEFAULT_TYPE):
             row = []
     if row:
         keyboard.append(row)
-    await update.callback_query.edit_message_caption(
-        caption="🎭 Janrni tanlang:",
+    await update.callback_query.edit_message_text(
+        text="🎭 Janrni tanlang:",
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
-async def search_movie(query, lang="uz"):
+async def search_movie(query):
     url = f"{TMDB_BASE}/search/movie"
     params = {"api_key": TMDB_API_KEY, "query": query, "language": "uz-UZ"}
     r = requests.get(url, params=params).json()
